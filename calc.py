@@ -7,6 +7,10 @@ Created on Fri Dec 18 14:45:27 2020
 """
 
 
+#TODO ramp und cooldown und warmup unterscheiden 
+#TODO messages
+
+
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from plotly.offline import plot
@@ -28,11 +32,35 @@ class training(object):
         self.ftp = ftp
         self.zwo = head
         self.blocks = []
+        self.messages = {}
         
     
     
     def text(self, id_block, message, offset = 0):
-        None
+        if self.blocks[id_block]['interval']:
+            if offset >= (self.blocks[id_block]['dur']*self.blocks[id_block]['repeats']):
+                print('\n##########\nOffset to big\n\n')
+                raise FileNotFoundError
+        else:
+            if offset >= self.blocks[id_block]['dur']:
+                print('\n##########\nOffset to big\n\n')
+                raise FileNotFoundError
+                
+        if len(message)>31:
+            print('\n##########\nMessage to long restirct to 31 chars!\n\n')
+            raise FileNotFoundError
+        
+        if id_block < 0 or id_block > len(self.blocks):
+            raise FileNotFoundError
+        else:
+            if id_block in self.messages.keys():
+                if any([offset == k for k in self.messages[id_block]]):
+                    raise FileNotFoundError
+                else:
+                    self.messages[id_block].append({'text': message, 'offset': offset})
+            else:
+                self.messages[id_block] = [{'text': message, 'offset': offset}]
+                    
         
         
         
@@ -47,7 +75,7 @@ class training(object):
         
         #self.plot()
         
-    def add_inter(self, repeats, on_dur, on_perc, off_dur, off_perc, on_cad=0, off_cad=0):
+    def interval(self, repeats, on_dur, on_perc, off_dur, off_perc, on_cad=0, off_cad=0):
         self.blocks.append({'dur' : [on_dur, off_dur],
                     'percent' : [on_perc, off_perc],
                     'cad': [on_cad, off_cad],
@@ -66,9 +94,22 @@ class training(object):
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         
         
-        sec = 0
         
+        sec = 0
         for i in range(len(self.blocks)):
+            
+            if i in self.messages.keys():
+                for k in range(len(self.messages[i])):
+                    fig.add_trace(go.Scatter(x=[self.dt(sec + self.messages[i][k]['offset'])] * 2,
+                                             y=[0, 200],
+                                             hoverinfo = 'text',
+                                             text = self.messages[i][k]['text'],
+                                             legendgroup = 'messages',
+                                             showlegend = False,
+                                             mode='lines+markers+text',
+                                             textposition="top center",
+                                            line = dict(color='red')), secondary_y=False)
+                
             
             if self.blocks[i]['interval']:
                 diff = int(self.blocks[i]['repeats']*2)
@@ -96,6 +137,7 @@ class training(object):
                 
                 if self.blocks[i]['interval']:
                     z_len = self.blocks[i]['dur'][zo%2]
+                    temp_end = self.blocks[i]['percent'][zo%2]
                     
                 elif diff >1:
                     
@@ -171,7 +213,7 @@ class training(object):
                                          legendgroup = col,
                                          showlegend = False,
                                          mode='lines',
-                                        line = dict(color='black')), secondary_y=False,)
+                                        line = dict(color='black')), secondary_y=False)
                 
                 fig.add_trace(go.Scatter(x=x_scale[1:3],
                                          y=[self.ftp/100*k for k in y_scale[1:3]],
@@ -238,8 +280,8 @@ class training(object):
         else:
             return 6
         
-    @staticmethod
-    def syntax(block, warm = False, cool = False):
+    
+    def syntax(self, block, index, warm_cool = False):
         if not block['interval']:
             if block['cad'][0]>0:
                 cad = ' Cadence="'+str(block['cad'][0])+'"'
@@ -247,53 +289,67 @@ class training(object):
                 cad = ''
 
             if block['percent'][0] == 0 or block['percent'][1] == 0:
-
-                return '\t\t<FreeRide Duration="'+str(block['dur'])+'" FlatRoad="170"'+cad+'/>'
+                end = self.message_syntax('FreeRide', index)
+                return '\t\t<FreeRide Duration="'+str(block['dur'])+'" FlatRoad="170"'+cad+end
 
             elif block['percent'][0] == block['percent'][1]:
-
-                return '\t\t<SteadyState Duration="'+str(block['dur'])+'" Power="'+str(block['percent'][0]/100)+'" pace="0"'+cad+'/>'
+                end = self.message_syntax('SteadyState', index)
+                return '\t\t<SteadyState Duration="'+str(block['dur'])+'" Power="'+str(block['percent'][0]/100)+'" pace="0"'+cad+end
 
             elif block['percent'][0] < block['percent'][1]:
-                if warm:
+                if warm_cool:
                     typ = 'Warmup'
                 else:
                     typ = 'Ramp'
-
-                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'" pace="0"'+cad+'/>'
+                end = self.message_syntax(typ, index)
+                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'" pace="0"'+cad+end
 
             elif block['percent'][0] > block['percent'][1]:
-                if warm:
+                if warm_cool:
                     typ = 'Cooldown'
                 else:
                     typ = 'Ramp'
-                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'" pace="0"'+cad+'/>'
+                end = self.message_syntax(typ, index)
+                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'" pace="0"'+cad+end
         
         
         else:
             rep = str(block['repeats'])
             on_t = str(block['dur'][0])
             off_t = str(block['dur'][1])
-            on_p = str(block['percent'][0])
-            off_p = str(block['percent'][1])
+            on_p = str(block['percent'][0]/100)
+            off_p = str(block['percent'][1]/100)
             if block['cad'][0]>0:
                 cad = ' Cadence="'+str(block['cad'][0])+'" CadenceResting="'+str(block['cad'][1])+'"'
             else:
                 cad = ''
-            return '<IntervalsT Repeat="'+rep+'" OnDuration="'+on_t+'" OffDuration="'+off_t+'" OnPower="'+on_p+'" OffPower="'+off_p+'" pace="0"'+cad+'/>'
+            end = self.message_syntax('IntervalsT', index)
+            return '\t\tßhttps://handytarife.check24.de/vergleich?data_included=8000&minutes_included=flatrate&select_contract=-24&context=tariff&keyword=handytarife&network_tmobile=yes&network_vodafone=no&network_o2=no&rnp=yes&tariff_type=all&data_speed=0&maximum_effective_price=egal&provider_restriction=&5g=all&young_tariff=no&tariff_activation_date=no&hardware_nature=40&with_data_tariffs=no&only_bookable_tariffs=no&fixed_traffic_automatic=egal&sms_included=all&results_to=30<IntervalsT Repeat="'+rep+'" OnDuration="'+on_t+'" OffDuration="'+off_t+'" OnPower="'+on_p+'" OffPower="'+off_p+'" pace="0"'+cad+end
             
         
-    def generate(self, filename):       
+
+    def message_syntax(self, opener, index):
+        if index in self.messages.keys():
+            end = '>\n'
+            
+            for message in self.messages[index]:
+                end += '\t\t\t<textevent timeoffset="'+str(message['offset'])+'" message="'+message['text']+'"/>\n'
+            
+            end += '\t\t</'+opener+'>'
+            return end
+        else:
+            return '/>'
+        
+    def generate(self, filename): 
+        k=0
         for block in self.blocks:
-            if self.blocks.index(block)==0:
+            if (self.blocks.index(block)==0) or (self.blocks.index(block) == len(self.blocks) -1):
                 self.zwo += '\n'
-                self.zwo += self.syntax(block, warm = True)
-            elif self.blocks.index(block) == len(self.blocks) -1:
-                self.zwo += '\n'
-                self.zwo += self.syntax(block, cool = True)
+                self.zwo += self.syntax(block, k, warm_cool = True)
             else:
                 self.zwo += '\n'
-                self.zwo += self.syntax(block)
+                self.zwo += self.syntax(block, k)
+            k += 1
             
         self.zwo += '\n'
         
