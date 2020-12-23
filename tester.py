@@ -35,7 +35,7 @@ e.add(600, [70,50])
 
 e.text(13, 'das is eine test message')
 
-e.text(1, 'das is eine zweite test message', offset = 30)
+# e.text(1, 'das is eine zweite test message', offset = 30)
 
 e.plot()
 

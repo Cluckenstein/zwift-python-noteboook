@@ -65,6 +65,11 @@ class training(object):
         
         
     def add(self, dur, percent, cadence = 0):
+        if dur==0:
+            print('\n##########\nDuration must be greater 0!\n\n')
+            raise FileNotFoundError
+            
+            
         if type(percent) != list:
             percent = [percent, percent]
             
@@ -76,6 +81,10 @@ class training(object):
         #self.plot()
         
     def interval(self, repeats, on_dur, on_perc, off_dur, off_perc, on_cad=0, off_cad=0):
+        if off_dur ==0 or on_dur ==0:
+            print('\n##########\nDuration must be greater 0!\n\n')
+            raise FileNotFoundError
+            
         self.blocks.append({'dur' : [on_dur, off_dur],
                     'percent' : [on_perc, off_perc],
                     'cad': [on_cad, off_cad],
@@ -96,18 +105,28 @@ class training(object):
         
         
         sec = 0
+        dis = []
         for i in range(len(self.blocks)):
             
             if i in self.messages.keys():
                 for k in range(len(self.messages[i])):
-                    fig.add_trace(go.Scatter(x=[self.dt(sec + self.messages[i][k]['offset'])] * 2,
-                                             y=[0, 200],
+                    fig.add_trace(go.Scatter(x=[self.dt(sec + self.messages[i][k]['offset'])],
+                                             y=[200],
                                              hoverinfo = 'text',
                                              text = self.messages[i][k]['text'],
                                              legendgroup = 'messages',
                                              showlegend = False,
-                                             mode='lines+markers+text',
+                                             mode='markers+text',
                                              textposition="top center",
+                                            line = dict(color='red')), secondary_y=False)
+                    
+                    fig.add_trace(go.Scatter(x=[self.dt(sec + self.messages[i][k]['offset'])] * 2,
+                                             y=[0, 200],
+                                             hoverinfo = 'text',
+                                             text = 'Offset: '+str(self.messages[i][k]['offset']),
+                                             legendgroup = 'messages',
+                                             showlegend = False,
+                                             mode='lines+markers',
                                             line = dict(color='red')), secondary_y=False)
                 
             
@@ -128,11 +147,23 @@ class training(object):
                 temp_p = self.blocks[i]['percent'][0]
                 temp_z = temp_z - up
             
+                if perc_diff > 0:
+                    steig  = (self.blocks[i]['percent'][1] - self.blocks[i]['percent'][0]) / self.blocks[i]['dur']
+                    dis.extend([self.blocks[i]['percent'][0] + k* steig for k in range(self.blocks[i]['dur'])])
             
             
             
                                
             for zo in range(diff):
+                
+                if self.blocks[i]['interval']:
+                    dis.extend([self.blocks[i]['percent'][zo%2]] * self.blocks[i]['dur'][zo%2])
+                
+                elif perc_diff == 0:
+                    dis.extend([self.blocks[i]['percent'][0]] * self.blocks[i]['dur'])
+                    
+                
+                    
                 col = colors[temp_z -1 + int(2*up) + 1 - up]
                 
                 if self.blocks[i]['interval']:
@@ -251,15 +282,56 @@ class training(object):
                 sec += round(self.blocks[i]['repeats']*sum(self.blocks[i]['dur']))
             else:   
                 sec += self.blocks[i]['dur']
-            
-        fig.update_xaxes(title_text='Zeit', type = 'date', tickangle = 0)
+                
         
+        average = self.avg_power(sec)
+        norm = self.np_power(dis)
+            
+        fig.add_annotation(x=self.dt(300), y=150,
+                text= "Average power "+str(int(average))+"w<br>" + "Normalised power (NP) "+str(int(norm))+"w<br>"+'Time '+self.dt(sec)[-7:-3]+'h',
+                showarrow=False,bordercolor="blue",align='left',
+        borderwidth=1)
+        
+        fig.update_xaxes(title_text='Zeit', type = 'date', tickangle = 0)
         fig.update_yaxes(title_text='% FTP', secondary_y=False)
         fig.update_yaxes(title_text='Watt', secondary_y=True, showgrid = False)
 
         #fig.show()
         
         plot(fig)
+        
+        
+    def np_power(self, dis):
+        if len(dis)>30:
+            dis = [self.ftp/100 * k for k in dis]
+            dis_p4 = []
+            for k in range(30, len(dis)):
+                dis_p4.append(sum(dis[k-30:k]) / 30)
+                
+            dis_p4 = [np.power(k,4) for k in dis_p4]
+            avg_p4 = sum(dis_p4) / len(dis_p4)
+            
+            norm = np.power(avg_p4, 0.25)
+                
+            return norm
+        
+        else:
+            return 0
+        
+        
+        
+    def avg_power(self, sec):
+        average = 0
+        for bl in self.blocks:
+            if bl['interval']:
+                int_avg = (bl['percent'][0]*bl['dur'][0] + bl['percent'][1]*bl['dur'][1])/sum(bl['dur'])
+                average += int_avg * (bl['repeats']*sum(bl['dur'])/sec)
+            else:   
+                int_avg = sum(bl['percent'])/2
+                average += int_avg*(bl['dur']/sec)
+        
+        return average /100 *self.ftp
+        
         
     @staticmethod
     def dt(seconds):
