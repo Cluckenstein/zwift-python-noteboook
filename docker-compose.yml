@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - /Users/maximilianreihn/Documents/repos/zwift-python-noteboook/zwo_files/:/src/zwo_files/
