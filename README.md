@@ -1,3 +1,4 @@
-# zwift-python-noteboook
+# zwift-workout-creator
 
-Explanation of programm to use
+If there is issues or questions go onto to put them in the issues I will try to add an explanation later on 
+
