@@ -30,7 +30,7 @@ function postWorkoutGenerate(){
         type : 'POST',
         cache : false,
         //url : "{{url_for('tester')}}",
-        url: "http://localhost:5000/generator/",  
+        url: "http://reihn.synology.me:5000/generator/",  
         data : {'ftp' : document.getElementById('ftp').value,
                 'name' : document.getElementById('workoutName').value,
                 'description' : document.getElementById('workoutDescription').value,
@@ -52,7 +52,7 @@ function postWorkoutGenerate(){
                 } else {
                     var link = tag + '-' +document.getElementById('workoutName').value;
                 }
-                var url = "http://localhost:5000/zwo_download/" + link + ".zwo";
+                var url = "http://reihn.synology.me:5000/zwo_download/" + link + ".zwo";
                 /**
                 var win = window.open("http://localhost:5000/zwo_download/" + link + ".zwo", '_blank');
                 
