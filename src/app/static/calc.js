@@ -3,7 +3,7 @@ function postWorkout(){
         type : 'POST',
         cache : false,
         //url : "{{url_for('tester')}}",
-        url: "http://localhost:5000/ploter/",  
+        url: "http://reihn.synology.me:5000/ploter/",  
         data : {'ftp' : document.getElementById('ftp').value,
                 'name' : document.getElementById('workoutName').value,
                 'description' : document.getElementById('workoutDescription').value,
