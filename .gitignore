@@ -2,6 +2,10 @@
 *.zwo
 *.html
 
+#for the two branches 
+docker-compose.yml
+src/calculator.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
