@@ -2,8 +2,7 @@ function postWorkout(){
     $.ajax({
         type : 'POST',
         cache : false,
-        //url : "{{url_for('tester')}}",
-        url: "http://reihn.synology.me:5000/ploter/",  
+        url: "/ploter/",  
         data : {'ftp' : document.getElementById('ftp').value,
                 'name' : document.getElementById('workoutName').value,
                 'description' : document.getElementById('workoutDescription').value,
@@ -15,7 +14,6 @@ function postWorkout(){
             console.log(typeof response)
             if (typeof response == 'object') {
                 console.log(response)
-                //fig = JSON.parse(response);
                 plot = document.getElementById('plot')
                 Plotly.newPlot(plot, response,{}) 
             }
@@ -29,8 +27,7 @@ function postWorkoutGenerate(){
     $.ajax({
         type : 'POST',
         cache : false,
-        //url : "{{url_for('tester')}}",
-        url: "http://reihn.synology.me:5000/generator/",  
+        url: "/generator/",  
         data : {'ftp' : document.getElementById('ftp').value,
                 'name' : document.getElementById('workoutName').value,
                 'description' : document.getElementById('workoutDescription').value,
@@ -52,14 +49,7 @@ function postWorkoutGenerate(){
                 } else {
                     var link = tag + '-' +document.getElementById('workoutName').value;
                 }
-                var url = "http://reihn.synology.me:5000/zwo_download/" + link + ".zwo";
-                /**
-                var win = window.open("http://localhost:5000/zwo_download/" + link + ".zwo", '_blank');
-                
-                Object.assign(document.createElement('a'), {
-                    target: '_blank',
-                    href: url,
-                  }).click(); */
+                var url = "/zwo_download/" + link + ".zwo";
                 window.open(url);
             }
            
@@ -68,7 +58,6 @@ function postWorkoutGenerate(){
 }
 
 window.onload = function() {
-	// setup the button click
 	document.getElementById("button_show").onclick = function() {
         console.log('posting  box')
 		postWorkout()

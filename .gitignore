@@ -4,7 +4,6 @@
 
 #for the two branches 
 docker-compose.yml
-src/app/static/calc.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
