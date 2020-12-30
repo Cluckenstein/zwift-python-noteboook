@@ -1,6 +1,6 @@
 #plot and zwift stuff
 *.zwo
-*.html
+temp-plot.html
 
 #for the two branches 
 docker-compose.yml

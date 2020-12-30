@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>{{ title }} - Workout</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{{ url_for('static', filename='plotly-latest.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='calc.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='schoen.css') }}">
+    </head>
+    <body>
+    <h1>Construct workout</h1>
+    <br>
+    <label for="ftp">FTP</label><br>
+    <input type="number" id="ftp" name="workout" min="30" max="600" value="300"></input>
+    <br><br>
+    <label for="workoutName">Workout name</label><br>
+    <input type="text" id="workoutName"></input>
+    <br><br>
+    <label for="workoutDesc">Workout description</label><br>
+    <textarea type="text" id="workoutDescription"  rows="2" cols="30"></textarea>
+    <br><br>
+      Legende: <br>
+      Für jeden Block eine neue Zeile benutzen, kopiert einfach die Blöcke unter und fügt sie beim Workout Generator ein. <br>&#42;optional   <br><br>
+      <table border='1'>
+        <tr>
+          <td>
+            Konstanter Block 
+          </td>
+          <td>
+            add(duration,  percent_of_ftp,  cadence&#42;)
+          </td>
+        </tr>
+        
+        <tr>
+          <td>
+            Rampe
+          </td>
+          <td>
+            add(duration, [%ftp_Anfang,  %ftp_Ende],  cadence&#42;)
+          </td> 
+        </tr>
+
+        <tr>
+          <td>
+            Interval
+          </td>
+          <td>
+            inter(repeats,  high_duration,  high_%ftp,  low_duration,  low_%ftp,  high_cadence&#42;,  low_cadence&#42;)
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Text message (id can be seen on hover of plot)
+          </td>
+          <td>
+            text(id,  'message',  offset&#42;)
+          </td>
+        </tr>
+      </table>
+
+    <br><br>
+    <label for="workoutGen">Workout Generator</label><br>
+    <textarea type="text" id="workoutGen"  rows="10" cols="50"></textarea>
+    <br><br>
+    <button type="button" id="button_example">Show Example!</button>
+    <br><br>
+    <button type="button" id="button_show">Show the Workout!</button>
+    <button type="button" id="button_gen">Generate .zwo file !</button>
+    <div id="plot" style="width:1700px;height:500px;"></div>
+    </body>
+</html>
