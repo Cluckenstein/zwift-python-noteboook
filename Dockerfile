@@ -7,7 +7,7 @@ RUN apt-get update -y && \
 COPY ./requirements.txt /src/requirements.txt
 
 WORKDIR /src
-
+ENV PYTHONUNBUFFERED=0
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 

@@ -2,7 +2,8 @@ from worker.calc import training
 from datetime import date
 import json
 
-def parse(name, description, ftp, string, tag, generate = False):
+
+def parse(name, description, ftp, string, tag = '', generate = False):
     if name == '':
         name = 'new Workout'
     if description == '':
@@ -24,24 +25,24 @@ def parse(name, description, ftp, string, tag, generate = False):
    
             if '[' not in params[1]:
                 if len(params) == 2:
-                    tr.add(int(params[0]), int(params[1]))
+                    tr.add(float(params[0]), float(params[1]))
                 elif len(params) == 3:
-                    tr.add(int(params[0]), int(params[1]), int(params[2]))
+                    tr.add(float(params[0]), float(params[1]), int(params[2]))
 
             elif '[' in params[1]:
                 if len(params) == 2:
-                    tr.add(int(params[0]), eval(params[1]))
+                    tr.add(float(params[0]), [float(k) for k in eval(params[1])])
                 elif len(params) == 3:
-                    tr.add(int(params[0]), eval(params[1]), int(params[2]))
+                    tr.add(float(params[0]), [float(k) for k in eval(params[1])], int(params[2]))
 
 
         elif 'inter' in block:
             params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
 
             if len(params) == 5:
-                tr.interval(int(params[0]), int(params[1]), int(params[2]), int(params[3]), int(params[4]))
+                tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]))
             if len(params) == 7:
-                tr.interval(int(params[0]), int(params[1]), int(params[2]), int(params[3]), int(params[4]), int(params[5]), int(params[6]))
+                tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]), int(params[5]), int(params[6]))
 
 
         elif 'text' in block:
@@ -65,6 +66,9 @@ def parse(name, description, ftp, string, tag, generate = False):
 
     
     plot = tr.plot()
+
+    print(tr.blocks)
+
     if generate:
         tr.generate('zwo_files/'+tag + '-'+name)
 

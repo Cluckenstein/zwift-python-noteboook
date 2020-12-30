@@ -8,7 +8,10 @@ Created on Wed Dec 23 21:38:29 2020
 
 
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+cors = CORS(app)
 
 from app import routes

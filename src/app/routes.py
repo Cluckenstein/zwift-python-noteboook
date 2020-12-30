@@ -47,7 +47,7 @@ def generator():
     tag = request.form.get('generate')
     gen = bool(request.form.get('generate'))
 
-    fig = parse(name, description, ftp, string, tag, generate = True)
+    fig = parse(name, description, ftp, string, tag = tag, generate = True)
 
     #resp = make_response(json.dumps(plot))
     return fig

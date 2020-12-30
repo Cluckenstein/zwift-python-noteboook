@@ -25,7 +25,7 @@ function postWorkout(){
 
 function postWorkoutGenerate(){
     var date = new Date();
-    var tag = date.toISOString().slice(0,23).replace(/-/g,"-");
+    var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
     $.ajax({
         type : 'POST',
         cache : false,

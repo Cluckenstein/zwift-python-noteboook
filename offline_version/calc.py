@@ -22,7 +22,7 @@ zones = [0, 59, 75, 89, 104, 118, 9999]
 
 class training(object):
     
-    def __init__(self, workout_name= 'new workout', description='description', ftp = 315, offline = False):
+    def __init__(self, workout_name= 'new workout', description='description', ftp = 315, offline = True):
         print(os.getcwd())
         if offline:
             path = ''
@@ -382,11 +382,11 @@ class training(object):
 
             if block['percent'][0] == 0 or block['percent'][1] == 0:
                 end = self.message_syntax('FreeRide', index)
-                return '\t\t<FreeRide Duration="'+str(int(block['dur']))+'" FlatRoad="170"'+cad+end
+                return '\t\t<FreeRide Duration="'+str(block['dur'])+'" FlatRoad="170"'+cad+end
 
             elif block['percent'][0] == block['percent'][1]:
                 end = self.message_syntax('SteadyState', index)
-                return '\t\t<SteadyState Duration="'+str(int(block['dur']))+'" Power="'+str(block['percent'][0]/100.)+'"'+cad+end
+                return '\t\t<SteadyState Duration="'+str(block['dur'])+'" Power="'+str(block['percent'][0]/100)+'"'+cad+end
 
             elif block['percent'][0] < block['percent'][1]:
                 if warm_cool:
@@ -394,7 +394,7 @@ class training(object):
                 else:
                     typ = 'Ramp'
                 end = self.message_syntax(typ, index)
-                return '\t\t<'+typ+' Duration="'+str(int(block['dur']))+'" PowerLow="'+str(block['percent'][0]/100.)+'" PowerHigh="'+str(block['percent'][1]/100.)+'"'+cad+end
+                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'"'+cad+end
 
             elif block['percent'][0] > block['percent'][1]:
                 if warm_cool:
@@ -402,15 +402,15 @@ class training(object):
                 else:
                     typ = 'Ramp'
                 end = self.message_syntax(typ, index)
-                return '\t\t<'+typ+' Duration="'+str(int(block['dur']))+'" PowerLow="'+str(block['percent'][0]/100.)+'" PowerHigh="'+str(block['percent'][1]/100.)+'"'+cad+end
+                return '\t\t<'+typ+' Duration="'+str(block['dur'])+'" PowerLow="'+str(block['percent'][0]/100)+'" PowerHigh="'+str(block['percent'][1]/100)+'"'+cad+end
         
         
         else:
             rep = str(block['repeats'])
             on_t = str(block['dur'][0])
             off_t = str(block['dur'][1])
-            on_p = str(block['percent'][0]/100.)
-            off_p = str(block['percent'][1]/100.)
+            on_p = str(block['percent'][0]/100)
+            off_p = str(block['percent'][1]/100)
             if block['cad'][0]>0:
                 cad = ' Cadence="'+str(block['cad'][0])+'" CadenceResting="'+str(block['cad'][1])+'"'
             else:
@@ -445,17 +445,13 @@ class training(object):
             
         self.zwo += '\n'
         
-        if self.off:
-            path = ''
-        else:
-            path = 'src/worker/'
-            
-        f = open(path + 'foot.txt','r')
+
+        f = open('foot.txt','r')
         foot = f.read()
         self.zwo += foot
         
 
-        f = open(filename + '.zwo', 'w')
+        f = open('out/' + filename + '.zwo', 'w')
         f.write(self.zwo)
         f.close()
 

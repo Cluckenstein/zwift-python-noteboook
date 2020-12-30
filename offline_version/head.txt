@@ -1,0 +1,9 @@
+<workout_file>
+	<author>Max Reihn</author>
+	<name>name_var</name>
+	<description>description_var</description>
+	<sportType>bike</sportType>
+	<tags>
+        <tag name="INTERVALS"/>
+    </tags>
+    <workout>
