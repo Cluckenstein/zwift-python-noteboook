@@ -1,12 +1,13 @@
 function postWorkout(){
+    var ex_string = "add(600,[50,65])\ninter(5, 45, 100, 300, 65)\nadd(300, 50)\nadd(600, [65,50])\ntext(1,'let the games begin')";
     $.ajax({
         type : 'POST',
         cache : false,
         url: "/ploter/",  
-        data : {'ftp' : document.getElementById('ftp').value,
-                'name' : document.getElementById('workoutName').value,
-                'description' : document.getElementById('workoutDescription').value,
-                'string' : document.getElementById('workoutGen').value,
+        data : {'ftp' : '300',
+                'name' : 'Example_Workout',
+                'description' : 'Put anything you like in here!',
+                'string' : ex_string,
                 'generate' : 0},
         dataType: 'json',
         success : function(response)
@@ -24,14 +25,16 @@ function postWorkout(){
 function postWorkoutGenerate(){
     var date = new Date();
     var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
+
+    var ex_string = "add(600,[50,65])\ninter(5, 45, 100, 300, 65)\nadd(300, 50)\nadd(600, [65,50])\ntext(1,'let the games begin')";
     $.ajax({
         type : 'POST',
         cache : false,
         url: "/generator/",  
-        data : {'ftp' : document.getElementById('ftp').value,
-                'name' : document.getElementById('workoutName').value,
-                'description' : document.getElementById('workoutDescription').value,
-                'string' : document.getElementById('workoutGen').value,
+        data : {'ftp' : '300',
+                'name' : 'Example_Workout',
+                'description' : 'Put anything you like in here!',
+                'string' : ex_string,
                 'generate' : tag},
         dataType: 'json',
         success : function(response)
@@ -67,10 +70,6 @@ window.onload = function() {
         console.log('posting  box and generating file')
 		postWorkoutGenerate()
     };
-    
-    document.getElementById("button_example").onclick = function() {
-        window.location.href = "/example";
-	};
 }
 
 

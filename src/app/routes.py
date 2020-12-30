@@ -18,9 +18,7 @@ from worker.workout_parser import parse
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    import os 
-    print(os.getcwd())
-    return render_template('index.html', title='ZWIFT')
+    return render_template('index.html', title='.zwo')
 
 
 
@@ -56,3 +54,8 @@ def generator():
 @app.route('/zwo_download/<filename>')
 def zwo_download(filename):
     return send_from_directory('/src/zwo_files', filename)
+
+
+@app.route('/example/')
+def example():
+    return render_template('example.html', title='.zwo')
