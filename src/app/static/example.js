@@ -1,5 +1,5 @@
 function postWorkout(){
-    var ex_string = "add(600,[50,65])\ninter(5, 45, 100, 300, 65)\nadd(300, 50)\nadd(600, [65,50])\ntext(1,'let the games begin')";
+    var ex_string = "add(600,[50,65],90)\ninter(5, 45, 100, 300, 65)\nadd(300, 50, 80)\nadd(600, [65,50])\ntext(1,'let the games begin')";
     $.ajax({
         type : 'POST',
         cache : false,
@@ -47,11 +47,7 @@ function postWorkoutGenerate(){
                 plot = document.getElementById('plot')
                 Plotly.newPlot(plot, response,{}) 
 
-                if (document.getElementById('workoutName').value == ''){
-                    var link = tag + '-new Workout';
-                } else {
-                    var link = tag + '-' +document.getElementById('workoutName').value;
-                }
+                var link = tag + '-Example_Workout';
                 var url = "/zwo_download/" + link + ".zwo";
                 window.open(url);
             }
