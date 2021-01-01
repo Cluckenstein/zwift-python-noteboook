@@ -17,49 +17,52 @@ def parse(name, description, ftp, string, tag = '', generate = False):
 
 
     for block in string:
-        if 'add' in block:
-            params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
-  
-            if '[' not in params[1]:
-                if len(params) == 2:
-                    tr.add(float(params[0]), float(params[1]))
-                elif len(params) == 3:
-                    tr.add(float(params[0]), float(params[1]), int(params[2]))
+        try:
+            if 'add' in block:
+                params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
+    
+                if '[' not in params[1]:
+                    if len(params) == 2:
+                        tr.add(float(params[0]), float(params[1]))
+                    elif len(params) == 3:
+                        tr.add(float(params[0]), float(params[1]), int(params[2]))
 
-            elif '[' in params[1]:
-                if len(params) == 3:
-                    tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])])
-                elif len(params) == 4:
-                    tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])], int(params[3]))
-
-
-        elif 'inter' in block:
-            params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
-
-            if len(params) == 5:
-                tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]))
-            if len(params) == 7:
-                tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]), int(params[5]), int(params[6]))
+                elif '[' in params[1]:
+                    if len(params) == 3:
+                        tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])])
+                    elif len(params) == 4:
+                        tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])], int(params[3]))
 
 
-        elif 'text' in block:
-            
-            params = block[block.index('(')+1:]
-            p1 = int(params[0:params.index(',')])
+            elif 'inter' in block:
+                params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
 
-            params = params[params.index(',')+1:]
-            p2 = params[params.index('\'')+1: params.index('\'', params.index('\'')+1)]
-            params = params[params.index('\'', params.index('\'')+1):]
+                if len(params) == 5:
+                    tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]))
+                if len(params) == 7:
+                    tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]), int(params[5]), int(params[6]))
 
-            if ',' in params:
-                p3 = params[params.index(',')+1 : params.index(')')]
-            else:
-                p3 = None
 
-            if not p3:
-                tr.text(p1, p2)
-            if p3:
-                tr.text(p1, p2, p3)
+            elif 'text' in block:
+                
+                params = block[block.index('(')+1:]
+                p1 = int(params[0:params.index(',')])
+
+                params = params[params.index(',')+1:]
+                p2 = params[params.index('\'')+1: params.index('\'', params.index('\'')+1)]
+                params = params[params.index('\'', params.index('\'')+1):]
+
+                if ',' in params:
+                    p3 = params[params.index(',')+1 : params.index(')')]
+                else:
+                    p3 = None
+
+                if not p3:
+                    tr.text(p1, p2)
+                if p3:
+                    tr.text(p1, p2, p3)
+        except:
+            None
 
     
     plot = tr.plot()
