@@ -18,7 +18,7 @@ from worker.workout_parser import parse
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='.zwo')
+    return render_template('page/index.html')
 
 
 
@@ -26,8 +26,13 @@ def index():
 def ploter():
     name = request.form.get('name')
     description = request.form.get('description')
-    ftp = int(request.form.get('ftp'))
+    ftp = request.form.get('ftp')
     string = request.form.get('string')
+    if ftp != '':
+        try:
+            ftp = int(ftp)
+        except:
+            ftp = None
 
     fig = parse(name, description, ftp, string)
 
@@ -39,8 +44,13 @@ def ploter():
 def generator():
     name = request.form.get('name')
     description = request.form.get('description')
-    ftp = int(request.form.get('ftp'))
+    ftp = request.form.get('ftp')
     string = request.form.get('string')
+    if ftp != '':
+        try:
+            ftp = int(ftp)
+        except:
+            ftp = None
 
     tag = request.form.get('generate')
     gen = bool(request.form.get('generate'))
@@ -54,8 +64,3 @@ def generator():
 @app.route('/zwo_download/<filename>')
 def zwo_download(filename):
     return send_from_directory('/src/zwo_files', filename)
-
-
-@app.route('/example/')
-def example():
-    return render_template('example.html', title='.zwo')
