@@ -1,5 +1,4 @@
 function postWorkout(){
-
     
     $.ajax({
         type : 'POST',
@@ -23,9 +22,9 @@ function postWorkout(){
     });
 }
 
-function postWorkoutGenerate(){
-    var date = new Date();
-    var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
+function postWorkoutGenerate(tag){
+    //var date = new Date();
+    //var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
     $.ajax({
         type : 'POST',
         cache : false,
@@ -46,13 +45,9 @@ function postWorkoutGenerate(){
                 plot = document.getElementById('plot')
                 Plotly.newPlot(plot, response,{}) 
 
-                if (document.getElementById('workoutName').value == ''){
-                    var link = tag + '-new Workout';
-                } else {
-                    var link = tag + '-' +document.getElementById('workoutName').value;
-                }
-                var url = "/zwo_download/" + link + ".zwo";
-                window.open(url);
+                
+                //var url = "/zwo_download/" + link + ".zwo";
+                //window.open(url);
             }
            
         }
@@ -83,9 +78,9 @@ function postWorkoutExample(){
     });
 }
 
-function postWorkoutGenerateExample(){
-    var date = new Date();
-    var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
+function postWorkoutGenerateExample(tag){
+    //var date = new Date();
+    //var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
 
     var ex_string = "add(600,[50,65])\ninter(5, 45, 100, 300, 65)\nadd(300, 50)\nadd(600, [65,50])\ntext(1,'let the games begin')";
     $.ajax({
@@ -108,9 +103,9 @@ function postWorkoutGenerateExample(){
                 plot = document.getElementById('plot_example')
                 Plotly.newPlot(plot, response,{}) 
 
-                var link = tag + '-Example_Workout';
-                var url = "/zwo_download/" + link + ".zwo";
-                window.open(url);
+                //var link = tag + '-Example_Workout';
+                //var url = "/zwo_download/" + link + ".zwo";
+                //window.open(url);
             }
            
         }
@@ -119,23 +114,42 @@ function postWorkoutGenerateExample(){
 
 window.onload = function() {
 	document.getElementById("button_show").onclick = function() {
-        console.log('posting  box')
+        console.log('posting box')
 		postWorkout()
     };
     
     document.getElementById("button_gen").onclick = function() {
-        console.log('posting  box and generating file')
-		postWorkoutGenerate()
+        console.log('posting box and generating file')
+
+        var date = new Date();
+        var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
+
+        if (document.getElementById('workoutName').value == ''){
+            var link = tag + '-new Workout';
+        } else {
+            var link = tag + '-' +document.getElementById('workoutName').value;
+        }
+        var url = "/zwo_download/" + link + ".zwo";
+        window.open(url);
+
+		postWorkoutGenerate(tag);
     };
 
     document.getElementById("button_show_example").onclick = function() {
-        console.log('posting  box')
+        console.log('posting box')
 		postWorkoutExample()
     };
     
     document.getElementById("button_gen_example").onclick = function() {
-        console.log('posting  box and generating file')
-		postWorkoutGenerateExample()
+        console.log('posting box and generating file')
+
+        var date = new Date();
+        var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
+        var link = tag + '-Example_Workout';
+        var url = "/zwo_download/" + link + ".zwo";
+        window.open(url);
+        
+		postWorkoutGenerateExample(tag);
     };
     /** 
     document.getElementById("button_example").onclick = function() {

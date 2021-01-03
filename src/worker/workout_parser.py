@@ -18,7 +18,7 @@ def parse(name, description, ftp, string, tag = '', generate = False):
 
     for block in string:
         try:
-            if 'add' in block:
+            if 'add'.upper() in block.upper():
                 params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
     
                 if '[' not in params[1]:
@@ -34,7 +34,7 @@ def parse(name, description, ftp, string, tag = '', generate = False):
                         tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])], int(params[3]))
 
 
-            elif 'inter' in block:
+            elif 'inter'.upper() in block.upper():
                 params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
 
                 if len(params) == 5:
@@ -43,7 +43,7 @@ def parse(name, description, ftp, string, tag = '', generate = False):
                     tr.interval(int(params[0]), int(params[1]), float(params[2]), int(params[3]), float(params[4]), int(params[5]), int(params[6]))
 
 
-            elif 'text' in block:
+            elif 'text'.upper() in block.upper():
                 
                 params = block[block.index('(')+1:]
                 p1 = int(params[0:params.index(',')])
