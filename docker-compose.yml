@@ -8,5 +8,5 @@ services:
       - "5000:80"
       - "5001:5001"
     volumes:
-      - /Users/maximilianreihn/Documents/repos/zwift-python-noteboook/zwo_files/:/src/zwo_files/
-      #- /volume1/generator/zwo_files/:/src/zwo_files/
+      #- /Users/maximilianreihn/Documents/repos/zwift-python-noteboook/zwo_files/:/src/zwo_files/
+      - /volume1/generator/zwo_files/:/src/zwo_files/
