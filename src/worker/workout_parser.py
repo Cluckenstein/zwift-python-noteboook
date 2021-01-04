@@ -72,6 +72,6 @@ def parse(name, description, ftp, string, tag = '', generate = False):
     print(tr.blocks)
 
     if generate:
-        tr.generate('zwo_files/'+tag + '-'+name)
+        tr.generate('/zwo_files/'+tag + '-'+name)
 
     return plot
