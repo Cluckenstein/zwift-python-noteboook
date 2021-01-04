@@ -7,11 +7,11 @@ Created on Wed Dec 23 21:40:35 2020
 """
 
 from flask import render_template, request, make_response, send_from_directory
-from app import app
+from src.app import app
 import json
 import os 
-from worker.calc import training
-from worker.workout_parser import parse
+from src.worker.calc import training
+from src.worker.workout_parser import parse
 
 
 

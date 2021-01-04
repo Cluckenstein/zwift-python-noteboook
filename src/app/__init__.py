@@ -14,4 +14,7 @@ app = Flask(__name__)
 
 cors = CORS(app)
 
-from app import routes
+
+from src.app import routes
+
+

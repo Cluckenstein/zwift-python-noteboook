@@ -1,4 +1,4 @@
-from worker.calc import training
+from src.worker.calc import training
 from datetime import date
 import json
 
