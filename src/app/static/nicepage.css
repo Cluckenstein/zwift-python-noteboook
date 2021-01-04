@@ -31247,68 +31247,87 @@ a.u-link.u-text-hover-grey-90:hover {
 }
 
 .u-footer .u-sheet-1 {
-  min-height: 198px;
+  min-height: 278px;
+}
+
+.u-footer .u-layout-wrap-1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.u-footer .u-layout-cell-1 {
+  min-height: 218px;
+}
+
+.u-footer .u-container-layout-1 {
+  padding: 30px;
 }
 
 .u-footer .u-text-1 {
-  font-size: 1rem;
-  margin: -50px 702px 0 22px;
+  margin: 0;
 }
 
 .u-footer .u-btn-1 {
   padding: 0;
 }
 
-.u-footer .u-text-2 {
-  margin: -50px 61px 60px 662px;
-}
-.u-footer .u-text-3 {
-  margin: -50px 61px 60px 362px;
+.u-footer .u-layout-cell-2 {
+  min-height: 218px;
 }
 
-.u-footer .u-btn-2 {
-  padding: 0;
+.u-footer .u-container-layout-2 {
+  padding: 30px 30px 29px;
+}
+
+.u-footer .u-text-2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.u-footer .u-custom-html-1 {
+  min-height: 33px;
+  height: auto;
+  width: 100px;
+  margin: 30px auto 0;
 }
 @media (max-width: 1199px) {
-  .u-footer .u-text-1 {
-    width: 417px;
-    margin-left: 0;
-    margin-right: 523px;
+  .u-footer .u-sheet-1 {
+    min-height: 198px;
   }
 
-  .u-footer .u-text-2 {
-    margin-right: 0;
-    margin-left: 523px;
+  .u-footer .u-layout-wrap-1 {
+    position: relative;
+  }
+
+  .u-footer .u-layout-cell-1 {
+    min-height: 180px;
+  }
+
+  .u-footer .u-layout-cell-2 {
+    min-height: 180px;
   }
 }
 @media (max-width: 991px) {
-  .u-footer .u-text-1 {
-    margin-right: 303px;
+  .u-footer .u-layout-cell-1 {
+    min-height: 100px;
   }
 
-  .u-footer .u-text-2 {
-    margin-left: 303px;
+  .u-footer .u-layout-cell-2 {
+    min-height: 100px;
   }
 }
 @media (max-width: 767px) {
-  .u-footer .u-text-1 {
-    margin-right: 123px;
+  .u-footer .u-container-layout-1 {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  .u-footer .u-text-2 {
-    margin-left: 123px;
+  .u-footer .u-container-layout-2 {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
-@media (max-width: 575px) {
-  .u-footer .u-text-1 {
-    width: 340px;
-    margin-right: 0;
-  }
 
-  .u-footer .u-text-2 {
-    margin-left: 0;
-  }
-}
 
  /*begin-variables base-font-size*/ 
  html { font-size: 16px; }
