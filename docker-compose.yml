@@ -3,6 +3,7 @@ services:
   web:
     build: .
     restart: always
+    privileged: true
     ports:
       - "5000:80"
     volumes:
