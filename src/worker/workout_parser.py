@@ -20,19 +20,21 @@ def parse(name, description, ftp, string, tag = '', generate = False):
         try:
             if 'add'.upper() in block.upper():
                 params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
-    
-                if '[' not in params[1]:
-                    if len(params) == 2:
-                        tr.add(float(params[0]), float(params[1]))
-                    elif len(params) == 3:
-                        tr.add(float(params[0]), float(params[1]), int(params[2]))
 
-                elif '[' in params[1]:
-                    if len(params) == 3:
-                        tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])])
-                    elif len(params) == 4:
-                        tr.add(float(params[0]), [float(k) for k in eval(params[1]+','+params[2])], int(params[3]))
+                if len(params) == 2:
+                    tr.add(float(params[0]), float(params[1]))
+                elif len(params) == 3:
+                    tr.add(float(params[0]), float(params[1]), int(params[2]))
 
+            
+            elif 'ramp'.upper() in block.upper():
+                params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
+
+                if len(params) == 3:
+                    tr.add(float(params[0]), [float(params[1]), int(params[2])])
+                elif len(params) == 4:
+                    tr.add(float(params[0]), [float(params[1]), int(params[2])], float(params[3]))
+                    
 
             elif 'inter'.upper() in block.upper():
                 params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]

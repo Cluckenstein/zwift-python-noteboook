@@ -30,7 +30,7 @@ COPY /server-conf/supervisord.conf /etc/
 COPY . /src
 
 
-#ENTRYPOINT [ "python3" ]
+# ENTRYPOINT [ "python3" ]
 
-#CMD [ "calculator.py" ]
+# CMD [ "calculator.py" ]
 CMD ["/usr/bin/supervisord"]
