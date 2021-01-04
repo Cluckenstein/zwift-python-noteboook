@@ -55,7 +55,7 @@ function postWorkoutGenerate(tag){
 }
 
 function postWorkoutExample(){
-    var ex_string = "add(600,[50,65],90)\ninter(5, 45, 100, 300, 65)\nadd(300, 50, 80)\nadd(600, [65,50])\ntext(1,'let the games begin')";
+    var ex_string = "ramp(600,50,65,90)\ninter(5, 45, 100, 300, 65)\nadd(300, 50, 80)\nramp(600, 65,50)\ntext(1,'let the games begin')";
     $.ajax({
         type : 'POST',
         cache : false,
@@ -82,7 +82,7 @@ function postWorkoutGenerateExample(tag){
     //var date = new Date();
     //var tag = date.toISOString().slice(0,23).replace(/-/g,"-").replace(":","-");
 
-    var ex_string = "add(600,[50,65])\ninter(5, 45, 100, 300, 65)\nadd(300, 50)\nadd(600, [65,50])\ntext(1,'let the games begin')";
+    var ex_string = "ramp(600,50,65,90)\ninter(5, 45, 100, 300, 65)\nadd(300, 50, 80)\nramp(600, 65,50)\ntext(1,'let the games begin')";
     $.ajax({
         type : 'POST',
         cache : false,
