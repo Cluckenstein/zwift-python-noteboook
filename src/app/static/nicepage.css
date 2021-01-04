@@ -31252,7 +31252,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-footer .u-text-1 {
   font-size: 1rem;
-  margin: 49px 702px 0 22px;
+  margin: -50px 702px 0 22px;
 }
 
 .u-footer .u-btn-1 {
@@ -31261,6 +31261,9 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-footer .u-text-2 {
   margin: -50px 61px 60px 662px;
+}
+.u-footer .u-text-3 {
+  margin: -50px 61px 60px 362px;
 }
 
 .u-footer .u-btn-2 {

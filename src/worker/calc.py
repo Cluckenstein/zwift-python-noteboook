@@ -455,7 +455,7 @@ class training(object):
         self.zwo += foot
         
         print(os.getcwd())
-        print(filename + '.zwo', 'w')
+        print(filename + '.zwo')
         f = open(filename + '.zwo', 'w')
         f.write(self.zwo)
         f.close()
