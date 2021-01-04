@@ -10,7 +10,7 @@ COPY ./requirements.txt /src/requirements.txt
 
 ENV PYTHONUNBUFFERED=0
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r /src/requirements.txt
 
 RUN useradd --no-create-home nginx 
 RUN usermod -G root nginx
