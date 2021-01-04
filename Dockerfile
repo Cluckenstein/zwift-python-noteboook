@@ -26,7 +26,7 @@ COPY /server-conf/supervisord.conf /etc/
 
 COPY . /src
 WORKDIR /src
-RUN chmod -R 757 ./
+RUN chmod -R 777 ./
 
 # ENTRYPOINT [ "python3" ]
 
