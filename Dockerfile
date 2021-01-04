@@ -15,7 +15,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 RUN useradd --no-create-home nginx 
-
+RUN usermod -G root nginx
 
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm -r /root/.cache
