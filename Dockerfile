@@ -13,7 +13,6 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r /src/requirements.txt
 
 RUN useradd --no-create-home nginx 
-RUN usermod -G root nginx
 
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm -r /root/.cache
@@ -27,6 +26,7 @@ COPY /server-conf/supervisord.conf /etc/
 
 COPY . /src
 WORKDIR /src
+RUN chmod -R 757 ./
 
 # ENTRYPOINT [ "python3" ]
 
