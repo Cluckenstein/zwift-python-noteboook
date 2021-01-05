@@ -50,7 +50,7 @@ def parse(name, description, ftp, string, tag = '', generate = False):
                 params = block[block.index('(')+1:]
                 p1 = int(params[0:params.index(',')])
 
-                params = params[params.index(',')+1:]
+                params = params[params.index(','):]
                 p2 = params[params.index('\'')+1: params.index('\'', params.index('\'')+1)]
                 params = params[params.index('\'', params.index('\'')+1):]
 
