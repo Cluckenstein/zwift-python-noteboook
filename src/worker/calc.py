@@ -154,6 +154,7 @@ class training(object):
                 temp_p = self.blocks[i]['percent'][0]
                 temp_z = temp_z - up
             
+                print(temp_z, temp_p, diff, up)
                 if perc_diff > 0:
                     steig  = (self.blocks[i]['percent'][1] - self.blocks[i]['percent'][0]) / self.blocks[i]['dur']
                     dis.extend([self.blocks[i]['percent'][0] + k * steig for k in range(int(self.blocks[i]['dur']))])
@@ -176,7 +177,7 @@ class training(object):
                     temp_end = self.blocks[i]['percent'][zo%2]
                     temp_z = self.zone(self.blocks[i]['percent'][zo%2])
                     
-                elif diff >1:
+                elif diff >1 or self.blocks[i]['percent'][0] != self.blocks[i]['percent'][1]:
                     
                     if up:
                         differ = min([zones[temp_z - 1 + int(2*up)], self.blocks[i]['percent'][1]])
