@@ -31,9 +31,9 @@ def parse(name, description, ftp, string, tag = '', generate = False):
                 params = [k.strip() for k in block[block.index('(')+1: block.index(')')].split(',')]
 
                 if len(params) == 3:
-                    tr.add(float(params[0]), [float(params[1]), int(params[2])])
+                    tr.add(float(params[0]), [float(params[1]), float(params[2])])
                 elif len(params) == 4:
-                    tr.add(float(params[0]), [float(params[1]), int(params[2])], float(params[3]))
+                    tr.add(float(params[0]), [float(params[1]), float(params[2])], float(params[3]))
                     
 
             elif 'inter'.upper() in block.upper():
