@@ -6,7 +6,7 @@ Created on Wed Dec 23 21:40:35 2020
 @author: maximilianreihn
 """
 
-from flask import render_template, request, make_response, send_from_directory
+from flask import render_template, request, make_response, send_from_directory, redirect, url_for
 from src.app import app
 import json
 import os 
@@ -18,8 +18,12 @@ from src.worker.workout_parser import parse
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('page/index.html')
+    return redirect(url_for('workout'))
 
+@app.route('/workout', methods=['GET', 'POST'])
+@app.route('/workout/', methods=['GET', 'POST'])
+def workout():
+    return render_template('page/index.html')
 
 
 @app.route('/ploter/', methods=['GET', 'POST'])
