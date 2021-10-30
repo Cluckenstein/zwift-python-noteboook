@@ -3,7 +3,7 @@ services:
   web:
     environment:
       TZ: "Europe/Berlin"
-    build: ./zwift-workout
+    build: .
     restart: always
     privileged: true
     ports:
