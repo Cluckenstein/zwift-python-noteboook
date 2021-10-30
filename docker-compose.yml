@@ -1,11 +1,13 @@
 version: "3"
 services:
   web:
+    environment:
+      TZ: "Europe/Berlin"
     build: .
     restart: always
     privileged: true
     ports:
-      - "5000:80"
+      - "5011:80"
     volumes:
-      #- /Users/maximilianreihn/Documents/repos/zwift-python-noteboook/zwo_files/:/src/zwo_files/
-      - /volume1/generator/zwo_files/:/src/zwo_files/
+      - /Users/maximilianreihn/Documents/repos/zwift-python-noteboook/zwo_files/:/src/zwo_files/
+      #- /volume1/repos/zwift/zwo_files/:/src/zwo_files/

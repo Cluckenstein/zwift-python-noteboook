@@ -32,6 +32,7 @@ def parse(name, description, ftp, string, tag = '', generate = False):
 
                 if len(params) == 3:
                     tr.add(float(params[0]), [float(params[1]), float(params[2])])
+                    
                 elif len(params) == 4:
                     tr.add(float(params[0]), [float(params[1]), float(params[2])], float(params[3]))
                     
