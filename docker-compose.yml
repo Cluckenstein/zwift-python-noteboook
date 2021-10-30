@@ -1,6 +1,6 @@
 version: "3"
 services:
-  zwift_workout:
+  web:
     environment:
       TZ: "Europe/Berlin"
     build: ./zwift-workout
@@ -9,23 +9,5 @@ services:
     ports:
       - "5011:80"
     volumes:
-      - /Users/maximilianreihn/Documents/repos/zwift-workout/zwo_files/:/src/zwo_files/
-      #- /volume1/repos/zwift/zwo_files/:/src/zwo_files/
-
-  calendar_subscription:
-    environment:
-      TZ: "Europe/Berlin"
-    build: ./calendar_training
-    restart: always
-    privileged: false
-    ports:
-      - "5010:80"
-
-  proxy:
-    environment:
-        TZ: "Europe/Berlin"
-    build: ./redirect_up
-    restart: always
-    privileged: false
-    ports:
-      - "5009:80"
+      #- /Users/maximilianreihn/Documents/repos/zwift-workout/zwo_files/:/src/zwo_files/
+      - /volume1/repos/zwift/zwo_files/:/src/zwo_files/
