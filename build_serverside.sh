@@ -1,7 +1,7 @@
 #!/bin/sh
 cd /volume1/repos/zwift/zwift-workout
 /bin/git fetch --all
-/bin/git reset --hard origin/main
-/bin/git pull origin main
+/bin/git reset --hard origin/master
+/bin/git pull origin master
 /usr/local/bin/docker-compose build
 /usr/local/bin/docker-compose up -d
