@@ -29,6 +29,5 @@ WORKDIR /src
 RUN chmod -R 777 ./
 
 #ENTRYPOINT [ "python3" ]
-
 #CMD [ "calculator.py" ]
 CMD ["/usr/bin/supervisord"]
