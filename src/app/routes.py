@@ -23,7 +23,7 @@ def index():
 @app.route('/workout', methods=['GET', 'POST'])
 @app.route('/workout/', methods=['GET', 'POST'])
 def workout():
-    return render_template('page/index.html')
+    return render_template('zwift_page/index.html')
 
 
 @app.route('/ploter/', methods=['GET', 'POST'])
