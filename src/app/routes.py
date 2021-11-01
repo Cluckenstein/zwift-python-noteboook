@@ -67,4 +67,5 @@ def generator():
 
 @app.route('/zwo_download/<filename>')
 def zwo_download(filename):
+    print(rerquest.url)
     return send_from_directory('/src/zwo_files', filename)

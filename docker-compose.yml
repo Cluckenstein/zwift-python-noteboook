@@ -10,4 +10,4 @@ services:
       - "5011:80"
     volumes:
       #- /Users/maximilianreihn/Documents/repos/zwift-workout/zwo_files/:/src/zwo_files/
-      - /volume1/repos/zwift/zwo_files/:/src/zwo_files/
+      - /volume1/repos/zwo_files/:/src/zwo_files/
