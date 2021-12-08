@@ -22,8 +22,6 @@ COPY /server-conf/flask-site-nginx.conf /etc/nginx/conf.d/
 COPY /server-conf/uwsgi.ini /etc/uwsgi/
 COPY /server-conf/supervisord.conf /etc/
 
-
-
 COPY . /src
 WORKDIR /src
 RUN chmod -R 777 ./
